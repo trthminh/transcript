@@ -1,6 +1,8 @@
 import pandas as pd
 import requests
 import numpy as np
+from unidecode import unidecode
+
 
 def read_html_with_lxml(file_path):
     # Read HTML content into DataFrame using read_html()
@@ -34,12 +36,12 @@ for i in range(len(df[1])):
     if "PE012" in str(df[1].iloc[i, 1]):
         continue
     id_subjects.append(df[1].iloc[i, 1])
-    name_subjects.append(df[1].iloc[i, 2])
+    name_subjects.append(unidecode(df[1].iloc[i, 2]))
     tin_chi.append(df[1].iloc[i, 3])
     hp.append(df[1].iloc[i, 8])
     
 data = {'Ma Mon':id_subjects, 'Ten Mon':name_subjects, 'Tin Chi':tin_chi, 'Diem':hp}
  
 df = pd.DataFrame(data)
-df.to_csv('user.csv', index=True)
+df.to_csv('user.csv', index=True, encoding='utf8')
 print(df)
